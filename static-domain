@@ -16,7 +16,7 @@ echo hello $1 > ~/prog/$1/www/index.html
 
 
 # changing nginx config
-sudo sh -c "i=32 dname=$1 envsubst < $0-dir/nginx-conf-template.conf > /etc/nginx/sites-available/$1.conf"
+sudo sh -c "i=32 dname=$1 homepath=$HOME envsubst < $0-dir/nginx-conf-template.conf > /etc/nginx/sites-available/$1.conf"
 sudo sh -c "ln -s /etc/nginx/sites-available/$1.conf /etc/nginx/sites-enabled/"
 
 

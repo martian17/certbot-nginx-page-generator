@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+#cat $0-dir/nginx-conf-template.conf
+
 echo $1
 if [[ -e ~/prog/$1 ]]; then
     echo $1 already exists, not doing anything.
@@ -8,10 +11,14 @@ fi
 
 echo creating new directory $1 under ~/prog/
 mkdir ~/prog/$1
+mkdir ~/prog/$1/www
+echo hello $1 > ~/prog/$1/www/index.html
+
 
 # changing nginx config
-sudo sh -c "i=32 dname=$1 envsubst < nginx-conf-template.conf > /etc/nginx/sites-available/$1.conf"
+sudo sh -c "i=32 dname=$1 envsubst < $0-dir/nginx-conf-template.conf > /etc/nginx/sites-available/$1.conf"
 sudo sh -c "ln -s /etc/nginx/sites-available/$1.conf /etc/nginx/sites-enabled/"
+
 
 sudo certbot --nginx --expand
 

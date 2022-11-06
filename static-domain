@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo $1
+if [[ -e ~/prog/$1 ]]; then
+    echo $1 already exists, not doing anything.
+    exit 1
+fi
+
+echo creating new directory $1 under ~/prog/
+mkdir ~/prog/$1
+
+# changing nginx config
+sudo sh -c "i=32 dname=$1 envsubst < nginx-conf-template.conf > /etc/nginx/sites-available/$1.conf"
+sudo sh -c "ln -s /etc/nginx/sites-available/$1.conf /etc/nginx/sites-enabled/"
+
+sudo certbot --nginx --expand
+
+sudo systemctl restart nginx
+
+
